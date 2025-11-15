@@ -1,9 +1,14 @@
+:root {
+    --font-color: lightgrey;
+    --font-size-base: 2rem;
+}
 body {
     justify-items: center;
     background-color: #292929;
+    color: var(--font-color);
+    font-size: var(--font-size-base);
 }
 
 .errorText {
     font-size: 80px;
-    color: lightgrey;
 }

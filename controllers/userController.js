@@ -10,6 +10,16 @@ exports.createUser = async (req, res) => {
     }
 };
 
+//POST
+exports.loginUser = async (req, res) => {
+    try {
+        const user = await userService.loginUser(req.body.email, req.body.password);
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(401).json({error: error.message});
+    }
+}
+
 //GET
 exports.getUserById = async (req, res) => {
     try {

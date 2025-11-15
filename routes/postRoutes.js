@@ -8,6 +8,7 @@ router.post('/posts/:id/like', postController.likePost);
 router.post('/users/:id/posts',postValidate, postController.createPost);
 
 router.get('/posts/mostLikes', postController.getMostLikedPosts);
+router.get('/posts', postController.getAllPosts);
 
 router.delete("/posts/:id", postController.deletePost);
 

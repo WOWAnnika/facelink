@@ -44,3 +44,12 @@ exports.deletePost = async (req, res) => {
         res.status(500).json({error: error.message});
     }
 };
+
+exports.getAllPosts = async (req, res) => {
+    try {
+        const posts = await postService.getAllPosts();
+        res.status(200).json(posts);
+    } catch(error) {
+        res.status(500).json({error: error.message});
+    }
+}

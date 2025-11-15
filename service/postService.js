@@ -72,5 +72,13 @@ exports.deletePost = async(postId) => {
     );
 
     return {message: "Post deleted"}
-
 }
+
+exports.getAllPosts = async () => {
+    const posts = await Post.find()
+        //for at hente post med en brugers navn
+        .populate('user_id', 'name')
+        //så nyeste posts først
+        .sort({timestamp: -1});
+    return posts;
+};
