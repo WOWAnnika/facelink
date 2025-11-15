@@ -1,0 +1,9 @@
+body {
+    justify-items: center;
+    background-color: #292929;
+}
+
+.errorText {
+    font-size: 80px;
+    color: lightgrey;
+}
