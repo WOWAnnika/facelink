@@ -2,9 +2,11 @@ const postService = require ("../service/postService");
 
 //POST
 exports.createPost = async (req, res) => {
-    console.log("req body: ",req.body);
     try {
-        const post = await postService.createPost(req.params.id, req.body);
+        const { text } = req.body;
+        const image = req.file ? `/img/${req.file.filename}` : null;
+
+        const post = await postService.createPost(req.user.id, {text, image});
         res.status(201).json(post);
     } catch (error) {
         res.status(500).json({error: error.message});
@@ -52,4 +54,4 @@ exports.getAllPosts = async (req, res) => {
     } catch(error) {
         res.status(500).json({error: error.message});
     }
-}
+};

@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const {hashPassword, comparePassword} = require("../utils/bcrypt")
+const {generateToken} = require("../utils/jwt");
 
 
 exports.createUser = async (data) => {
@@ -37,9 +38,14 @@ exports.loginUser = async (email, password) => {
         throw new Error("Invalid email or password");
     }
 
+    const token = generateToken(user._id);
+
     const userObject = user.toObject()
     delete userObject.password;
-    return userObject;
+    return {
+        user: userObject,
+        token: token
+    };
 };
 
 exports.getUserById = async (userId) => {

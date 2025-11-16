@@ -6,6 +6,7 @@ exports.createPost = async (userId, data) => {
      const post = new Post({
          user_id: userId,
          text: data.text,
+         image: data.image || null,
      });
 
      await post.save();

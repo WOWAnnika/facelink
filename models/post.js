@@ -7,6 +7,7 @@ const postSchema = new mongoose.Schema ({
     text: {type: String, required: true},
     timestamp: {type: Date, default: Date.now},
     likes: {type: Number, required: true, default: 0},
+    image: {type: String, required: false}
 });
 
 module.exports = mongoose.model('Post', postSchema);

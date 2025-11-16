@@ -12,3 +12,43 @@ body {
 .errorText {
     font-size: 80px;
 }
+
+/* Postkort */
+.post-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 16px;
+    max-width: 600px;
+    background-color: #fafafa;
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
+}
+
+/* Billede */
+.post-image {
+    width: 100%;
+    height: auto;
+    max-height: 700px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+
+/* Tekst */
+.post-text {
+    font-size: 1rem;
+    margin-bottom: 8px;
+    color: black;
+}
+
+/* Bruger */
+.post-user {
+    font-size: 0.85rem;
+    color: #555;
+}
+
+/* Tidspunkt */
+.post-timestamp {
+    font-size: 0.75rem;
+    color: black;
+}
