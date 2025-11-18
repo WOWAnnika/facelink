@@ -2,7 +2,7 @@ const multer = require('multer');
 const path = require('path');
 
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
+    destination: (req, file, cb) => { // Bruges internt af multer
         cb(null, path.join(__dirname, "..", "public", "img"));
     },
     filename: (req, file, cb) => {

@@ -3,7 +3,9 @@ const postService = require ("../service/postService");
 //POST
 exports.createPost = async (req, res) => {
     try {
-        const { text } = req.body;
+        const text = req.body.text;
+
+        //hvis req.file eksistere bliver image sat til /img/osv. hvis ikke bliver den sat til null
         const image = req.file ? `/img/${req.file.filename}` : null;
 
         const post = await postService.createPost(req.user.id, {text, image});

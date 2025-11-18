@@ -3,14 +3,18 @@ const User = require ("../models/user");
 
 
 exports.createPost = async (userId, data) => {
-     const post = new Post({
+    //laver ny instans af Post
+    const post = new Post({
          user_id: userId,
          text: data.text,
+        //sætter til null hvis ikke modtaget noget billede
          image: data.image || null,
      });
-
+    //gemmer den nye Post i vores mongoDB
      await post.save();
 
+     //tilføjer Post id'et til den bruger der oprettet postet
+     //overvej addToSet, kan ikke tilføje duplikationer
      await User.findByIdAndUpdate(userId, {
          $push: {posts: post.id}
      });

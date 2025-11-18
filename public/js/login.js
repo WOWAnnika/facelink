@@ -1,11 +1,5 @@
 console.log("HER ER JAVASCRIPT")
 
-window.addEventListener("DOMContentLoaded", () => {
-    console.log("DOM fully loaded");
-});
-
-alert("HEJ FUCK AF");
-
 document.getElementById("loginForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -26,9 +20,8 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
 
             const data = await response.json();
             localStorage.setItem("token",data.token);
-            console.log("token", data.token);
+
             localStorage.setItem("userId", data.user._id);
-            console.log("userId: ", data.user._id);
 
 
             window.location.href = "/"
