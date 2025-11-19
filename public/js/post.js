@@ -119,7 +119,7 @@ listPosts.addEventListener("click", async (e) => {
 
         if (!response.ok) {
             const err = await response.json();
-            throw new Error(err.message);
+            throw new Error(err.error || "Unknown error");
         }
 
         alert("Post slettet");

@@ -64,7 +64,7 @@ exports.getMostLikedPosts = async () => {
     return result;
 };
 
-exports.deletePost = async(postId) => {
+exports.deletePost = async(post) => {
     //lost in the sauce
     //hvis post har et billede sletter vi det fra vores mappe
     if (post.image) {
@@ -82,10 +82,10 @@ exports.deletePost = async(postId) => {
     // console.log("user: ", post.user_id)
 
     //burde ikke behøve findByIdAndDelete da vores middelware laver vores Post DB kald for os
-    await post.remove();
+    await Post.findByIdAndDelete(post._id);
 
     await User.findByIdAndUpdate(post.user_id,
-        {$pull: {posts: postId} },
+        {$pull: {posts: post._id} },
         {new: true}
     );
 

@@ -16,6 +16,6 @@ exports.checkPostOwner = async (req, res, next) => {
         return res.status(403).json({message: "Du må altså ikke slette andres posts! >:I"})
     }
     //gemmer til brug i service, så vi ikke også behøver lava et nyt DB kald der
-    req.post = Post;
+    req.post = post;
     next();
 };
