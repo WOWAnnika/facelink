@@ -65,6 +65,7 @@ exports.getMostLikedPosts = async () => {
 };
 
 exports.deletePost = async(postId) => {
+    //lost in the sauce
     //hvis post har et billede sletter vi det fra vores mappe
     if (post.image) {
         const imagePath = path.join(__dirname, "..", "public", post.image.replace("/img/","img/"));
