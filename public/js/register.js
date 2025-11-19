@@ -32,7 +32,7 @@ registerForm.addEventListener("submit", async (e) => {
 
     const name = document.getElementById("name").value.trim();
     const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value;
+    const password = document.getElementById("password").value.trim();
 
     if (name.length < 2) return alert("skal være mere end 2 tegn");
     if (password.length < 6) return alert("skal være mere end 6 tegn");

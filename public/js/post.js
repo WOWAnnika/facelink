@@ -38,7 +38,7 @@ async function getAllPosts() {
                 <p class="post-text">${post.text}</p>
                 <p class="post-user">${post.user_id.name}</p>
                 <p class="post-timestamp">${new Date(post.timestamp).toLocaleString()}</p>
-<!--            En delete knap man kun burde kunne se hvis det er ens egen post-->
+<!--            En delete knap man kun burde kunne se hvis det er ens egen post, gemmer også post id her, henter det herfra når vi skal slet posten-->
                 ${post.user_id._id === currentUserId ? `<button class="delete-btn" data-id="${post._id}">Slet</button>` : ""}
             `;
             // tilføjes DOM-element?? til HTML'en
@@ -105,28 +105,36 @@ async function createPost(formData) {
 }
 
 listPosts.addEventListener("click", async (e) => {
+    //sørger for koden nedenunder kun bliver activeret af buttons der har class "delete-btn"
     if (!e.target.classList.contains("delete-btn")) return;
 
+    //her henter vi id fra den button vi lige trykket på, og der har vi gemt vores posts id.
     const postId = e.target.dataset.id;
+
+    //lil check for være sikker på folk er logget ind, men tbh burde de slet ikke kunne se nogen delete knapper hvis ikke logget ind
     const token = localStorage.getItem("token");
     if (!token) return alert("Du skal være logget ind");
 
+    //sender vores request til backend
     try {
         const response = await fetch(`/api/posts/${postId}`, {
             method: "DELETE",
+            //token sendt også for værer sikker på du faktisk ejer den post du prøver slette
             headers: { "Authorization": "Bearer " + token }
         });
 
         if (!response.ok) {
             const err = await response.json();
-            throw new Error(err.error || "Unknown error");
+            throw new Error(err.error);
         }
 
         alert("Post slettet");
-        getAllPosts(); // opdater listen
+
+        //opdatere listen efter slettet
+        getAllPosts();
     } catch (error) {
         console.error(error);
-        alert(error.message);
+        // alert(error.message);
     }
 });
 

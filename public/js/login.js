@@ -29,8 +29,8 @@ loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     hideError()
 
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
 
     try {
         const response = await fetch("/api/login", {

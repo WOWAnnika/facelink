@@ -14,12 +14,13 @@ const globalErrorHandler = require('./middleware/globalErrorHandler');
 
 
 
+
 const app = express();
 
 app.use(morgan('dev'));
 app.use(morgan('method :url -> status=:status :response-time ms'));
 
-const port = process.env.PORT
+const port = process.env.PORT;
 
 app.use(express.json());
 
