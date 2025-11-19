@@ -4,15 +4,27 @@ const postController = require("../controllers/postController");
 // const {postValidate} = require("../middleware/postValidation");
 const {validate} = require("../middleware/validation");
 const {authentication} = require("../middleware/authentication");
+const {checkPostOwner} = require("../middleware/authPostOwner")
 const upload = require("../middleware/upload");
 
 
 router.post('/posts/:id/like', postController.likePost);
-router.post('/users/posts', authentication,upload.single("image"), validate("post"), postController.createPost);
 
-router.get('/posts/mostLikes', postController.getMostLikedPosts);
-router.get('/posts', postController.getAllPosts);
+//tjekker token, upload.single fordi vi kun modtager 1 billede, når billedet valideret så det post og derefter laver vi faktisk post
+router.post('/users/posts',
+    authentication,upload.single("image"),
+    validate("post"),
+    postController.createPost);
 
-router.delete("/posts/:id", authentication, postController.deletePost);
+router.get('/posts/mostLikes',
+    postController.getMostLikedPosts);
+
+router.get('/posts',
+    postController.getAllPosts);
+
+router.delete("/posts/:id",
+    authentication,
+    checkPostOwner,
+    postController.deletePost);
 
 module.exports = router;

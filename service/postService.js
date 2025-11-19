@@ -1,3 +1,5 @@
+const fs = require("fs");
+const path = require("path");
 const Post = require ("../models/post");
 const User = require ("../models/user");
 
@@ -63,13 +65,23 @@ exports.getMostLikedPosts = async () => {
 };
 
 exports.deletePost = async(postId) => {
-    const post = await Post.findByIdAndDelete(postId);
-
-    if(!post) {
-        return null;
+    //hvis post har et billede sletter vi det fra vores mappe
+    if (post.image) {
+        const imagePath = path.join(__dirname, "..", "public", post.image.replace("/img/","img/"));
+        fs.unlink(imagePath, (err) => {
+            if (err) console.error("Kunne ikke slette billedet: ", err);
+        });
     }
-    console.log("post", post)
-    console.log("user: ", post.user_id)
+    // const post = await Post.findByIdAndDelete(postId);
+    //
+    // if(!post) {
+    //     return null;
+    // }
+    // console.log("post", post)
+    // console.log("user: ", post.user_id)
+
+    //burde ikke behøve findByIdAndDelete da vores middelware laver vores Post DB kald for os
+    await post.remove();
 
     await User.findByIdAndUpdate(post.user_id,
         {$pull: {posts: postId} },

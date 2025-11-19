@@ -6,6 +6,7 @@ exports.createPost = async (req, res) => {
         const text = req.body.text;
 
         //hvis req.file eksistere bliver image sat til /img/osv. hvis ikke bliver den sat til null
+        //sætter til null i stedet for undefined så stadig lavet felt i DB
         const image = req.file ? `/img/${req.file.filename}` : null;
 
         const post = await postService.createPost(req.user.id, {text, image});
@@ -39,7 +40,8 @@ exports.getMostLikedPosts = async (req, res) => {
 
 exports.deletePost = async (req, res) => {
     try {
-        const post = await postService.deletePost(req.params.id);
+        const post = await postService.deletePost(req.post);
+        //ikke helt sikkert denne er nødvendig længere nu hvor authPostOwner også tjekker dette
         if (!post) {
             return res.status(404).json({error: "Post not found"});
         }

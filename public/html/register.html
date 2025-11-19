@@ -3,16 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/auth.css">
     <title>Lav konto :)</title>
 </head>
 <body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <h1>Create user</h1>
+            <form id="registerForm">
+                <input type="text" id="name" placeholder="Name" required>
+                <input type="email" id="email" placeholder="Email" required>
+                <input type="password" id="password" placeholder="Password" required>
 
-    <form id="registerForm">
-        <input type="text" id="name" placeholder="Name" required>
-        <input type="email" id="email" placeholder="Email" required>
-        <input type="password" id="password" placeholder="Password" required>
-        <button type="submit">Register</button>
-    </form>
+                <div id="errorMessage" class="error hidden"></div>
+
+                <button type="submit" id="registerBtn">
+                    <span id="btnText">Create user</span>
+                    <span id="btnLoader" class="loader hidden"></span>
+                </button>
+            </form>
+            <p class="link">
+                Already have an account?!!!?!?! <a href="/login"> Login here: )))!)!)</a>
+            </p>
+
+        </div>
+    </div>
+
 
     <script src="/js/register.js" defer></script>
 </body>

@@ -1,7 +1,33 @@
-console.log("HER ER JAVASCRIPT")
+const loginForm = document.getElementById('loginForm');
+const loginBtn = document.getElementById("loginBtn");
+const btnText = document.getElementById("btnText");
+const btnLoader = document.getElementById("btnLoader");
+const errorMessage = document.getElementById("errorMessage");
 
-document.getElementById("loginForm").addEventListener("submit", async (e) => {
+function showLoading() {
+    loginBtn.disabled = true;
+    btnText.classList.add("hidden");
+    btnLoader.classList.remove("hidden");
+}
+
+function hideLoading() {
+    loginBtn.disabled = false;
+    btnText.classList.remove("hidden");
+    btnLoader.classList.add("hidden");
+}
+
+function showError(message) {
+    errorMessage.textContent = message;
+    errorMessage.classList.remove("hidden");
+}
+
+function hideError() {
+    errorMessage.classList.add("hidden");
+}
+
+loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
+    hideError()
 
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
@@ -15,20 +41,18 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
             body: JSON.stringify({email, password})
         });
 
-        if (response.ok) {
-            console.log("test")
-
-            const data = await response.json();
-            localStorage.setItem("token",data.token);
-
-            localStorage.setItem("userId", data.user._id);
-
-
-            window.location.href = "/"
-        } else {
-            console.log("NOT GOOD");
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || "Login failed");
         }
+
+        const data = await response.json();
+        localStorage.setItem("token",data.token);
+        localStorage.setItem("userId", data.user._id);
+        window.location.href = "/"
+
     } catch (error) {
-        console.log("also no good");
+        showError(error.message);
+        hideLoading();
     }
 });
