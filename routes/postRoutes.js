@@ -9,8 +9,14 @@ const { postCreationLimiter, likeLimiter } = require("../middleware/rateLimiter"
 
 
 router.post('/posts/:id/like',
+    authentication,
     likeLimiter,
     postController.likePost);
+
+router.delete('/posts/:id/like',
+    authentication,
+    likeLimiter,
+    postController.unlikePost);
 
 //tjekker token, upload.single fordi vi kun modtager 1 billede, når billedet valideret så det post og derefter laver vi faktisk post
 router.post('/users/posts',

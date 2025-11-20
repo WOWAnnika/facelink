@@ -18,7 +18,7 @@ exports.createPost = async (req, res) => {
 
 exports.likePost = async (req, res) => {
     try {
-        const post = await postService.likePost(req.params.id);
+        const post = await postService.likePost(req.params.id, req.user.id);
         if (!post) {
             return res.status(404).json({error: 'post not found'});
         }
@@ -27,6 +27,19 @@ exports.likePost = async (req, res) => {
         res.status(500).json({error: error.message});
     }
 };
+
+exports.unlikePost = async (req, res) => {
+    try{
+        const post = await postService.unlikePost(req.params.id, req.user.id);
+        if (!post) {
+            return res.status(404).json({error: 'post not found'});
+        }
+        res.status(200).json(post);
+    } catch (error) {
+        res.status(500).json({error: error.message});
+    }
+};
+
 
 //GET
 exports.getMostLikedPosts = async (req, res) => {

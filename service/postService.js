@@ -25,15 +25,85 @@ exports.createPost = async (userId, data) => {
 
 };
 
-exports.likePost = async (postId) => {
-    const like = await Post.findByIdAndUpdate(
-        postId,
-        { $inc: {likes: 1} },
-        {new: true }
+exports.likePost = async (postId, userId) => {
+    //const post = await Post.findById(postId)
+    const post = await Post.findOneAndUpdate(
+        // Filter, det dokumenter skal vi matche.
+        {
+            _id: postId,
+            likedBy: {$ne: userId} //$ne = "not equal" / "not in array". Altså tjek at userId ikke er i likedBy array
+        },
+        // Hvis filter = true, så definere vi hvad der skal ske, altså vores update
+        {
+            $push: {likedBy: userId},
+            $inc: {likes: 1}
+        },
+        { // Sikre vi returnere det opdateret, og ikke det gamle dokument
+            new: true
+        }
+    );
+    //Hvis post er null, betyder det at enten findes posten ikke, eller user har allerede liked
+    if(!post){
+        const unchangedPost = await Post.findById(postId);
+        return unchangedPost; // returnere uden ændring
+    }
+
+    return post; // Like blev tilføjet
+    // if (!post) {
+    //     return null;
+    // }
+    //
+    // if (post.likedBy.includes(userId)) {
+    //     return post;
+    // }
+    //
+    // const like = await Post.findByIdAndUpdate(
+    //     postId,
+    //     {
+    //         $inc: {likes: 1},
+    //         $push: {likedBy: userId}
+    //     },
+    //     {new: true }
+    // );
+    // return like;
+};
+
+exports.unlikePost = async (postId, userId) => {
+    // const post = await Post.findById(postId);
+    const post = await Post.findOneAndUpdate(
+        {
+            _id: postId,
+            likedBy: userId
+        },
+        {
+            $pull: {likedBy: userId},
+            $inc: {likes: -1}
+        },
+        {
+            new: true
+        }
     );
 
-    return like;
-}
+    if(!post){
+        const unchangedPost = await Post.findById(postId);
+        return unchangedPost; // returnere uden ændring
+    }
+    return post; // like fjernet
+    //
+    // if (!post) {
+    //     return null;
+    // }
+    //
+    // const unlike = await Post.findByIdAndUpdate(
+    //     postId,
+    //     {
+    //         $inc: {likes: -1},
+    //         $pull: {likedBy: userId}
+    //     },
+    //     {new: true}
+    // );
+    // return unlike;
+};
 
 exports.getMostLikedPosts = async () => {
     const result = await Post.aggregate([
