@@ -38,6 +38,10 @@ app.get("/register", (req,res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'register.html'));
 });
 
+app.get("/profile", (req,res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'profile.html'));
+});
+
 app.use('/api',postRoutes);
 app.use('/api', userRoutes);
 

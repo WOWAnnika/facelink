@@ -3,14 +3,118 @@
     --font-size-base: 2rem;
 }
 body {
-    justify-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     background-color: #292929;
     color: var(--font-color);
     font-size: var(--font-size-base);
+    min-width: 600px;
+    min-height: 100vh;
+
+}
+#postForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 90%;
+    max-width: 40rem;
 }
 
 .errorText {
     font-size: 80px;
+}
+
+.postMessage:empty {
+    display: none;
+}
+
+#postButton {
+
+    font-size: 1rem;
+    font-weight: bold;
+    width: 10rem;
+    height: 3rem;
+    margin-bottom: 1rem;
+    border: solid 3px #1b1a1a;
+    transition: .3s ease all;
+    border-radius: 0.3rem;
+}
+
+
+
+
+#postImage {
+    background-color: #1b1a1a;
+    border: solid 3px #1b1a1a;
+    font-size: 1rem;
+    padding: 10px 10px 10px 10px;
+    border-radius: 0.3rem;
+    width: 100%;
+    max-width: 500px;
+
+}
+
+.like-btn{
+    border: solid 2px #2a2a2a;
+    border-radius: 0.2rem;
+    width: 84px;
+    height: 30px;
+    transition: .3s ease all;;
+    font-size: 1rem;
+    background-color: #fafafa;
+}
+
+.like-btn:hover {
+    background-color: #efdf9c;
+    border-radius: 0.6rem;
+
+    transition: .3s ease all;
+    transform: scale(1.1);
+
+}
+
+.like-btn:active,
+.delete-btn:active,
+.btn:active {
+    transition: .3s ease all;
+    transform: scale(0.8);
+}
+
+.delete-btn {
+    border: solid 2px #2a2a2a;
+    border-radius: 0.2rem;
+    width: 60px;
+    height: 30px;
+    transition: .3s ease all;;
+    font-size: 1rem;
+    background-color: #fafafa;
+
+}
+
+.delete-btn:hover {
+    background-color: #c86969;
+    border-radius: 0.6rem;
+
+    transition: .3s ease all;
+    transform: scale(1.1);
+
+}
+
+.btn:hover {
+    background-color: #a8d396;
+    border-radius: 1rem !important;
+    transition: .3s ease all;
+}
+
+#postInput {
+    margin-top: 1rem;
+    resize: none;
+    width: 90%;
+    height: 100px;
+    font-size: 1.5rem;
+
 }
 
 /* Postkort */
@@ -19,7 +123,8 @@ body {
     border-radius: 8px;
     padding: 12px;
     margin-bottom: 16px;
-    max-width: 600px;
+    width: 100%;
+    max-width: 50rem;
     background-color: #fafafa;
     box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
 }
@@ -36,20 +141,20 @@ body {
 
 /* Tekst */
 .post-text {
-    font-size: 1rem;
+    font-size: 1.5rem;
     margin-bottom: 8px;
     color: black;
 }
 
 /* Bruger */
 .post-user {
-    font-size: 0.85rem;
+    font-size: 1rem;
     color: #555;
 }
 
 /* Tidspunkt */
 .post-timestamp {
-    font-size: 0.75rem;
+    font-size: 0.90rem;
     color: black;
 }
 

@@ -40,6 +40,7 @@ async function getAllPosts() {
                 <p class="post-timestamp">${new Date(post.timestamp).toLocaleString()}</p>
 <!--            En delete knap man kun burde kunne se hvis det er ens egen post, gemmer også post id her, henter det herfra når vi skal slet posten-->
                 ${post.user_id._id === currentUserId ? `<button class="delete-btn" data-id="${post._id}">Slet</button>` : ""}
+                <button class="like-btn">Likes: ${post.likes}</button>
             `;
             // tilføjes DOM-element?? til HTML'en
             listPosts.appendChild(div);
