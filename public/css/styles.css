@@ -14,8 +14,15 @@ body {
     min-height: 100vh;
 
 }
+/*SÆT TING I DISPLAYS HVIS DU VIL ALLIGN THEM HUSK HUSK PLEASE*/
+.postList {
+    display: flex;
+    align-items: center;
+}
+
 #postForm {
     display: flex;
+    align-items: center;
     flex-direction: column;
     gap: 1rem;
     width: 90%;
@@ -167,4 +174,21 @@ body {
     border: 2px solid #ccc;
     border-radius: 6px;
     color: black;
+}
+
+.footer {
+    margin: 4rem;
+    text-align: center;
+}
+
+.header {
+    display:grid;
+    align-items: center;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    padding-top: 10px;
+    grid-template-areas:
+    "logo button"
+    "menu menu"
+;
 }

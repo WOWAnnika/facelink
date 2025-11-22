@@ -26,29 +26,68 @@ exports.createPost = async (userId, data) => {
 };
 
 exports.likePost = async (postId, userId) => {
-    //const post = await Post.findById(postId)
-    const post = await Post.findOneAndUpdate(
-        // Filter, det dokumenter skal vi matche.
-        {
-            _id: postId,
-            likedBy: {$ne: userId} //$ne = "not equal" / "not in array". Altså tjek at userId ikke er i likedBy array
-        },
-        // Hvis filter = true, så definere vi hvad der skal ske, altså vores update
-        {
-            $push: {likedBy: userId},
-            $inc: {likes: 1}
-        },
-        { // Sikre vi returnere det opdateret, og ikke det gamle dokument
-            new: true
-        }
-    );
-    //Hvis post er null, betyder det at enten findes posten ikke, eller user har allerede liked
-    if(!post){
-        const unchangedPost = await Post.findById(postId);
-        return unchangedPost; // returnere uden ændring
+  const likedPost = await Post.findOneAndUpdate(
+      //prøver lave like, men kun hvis userId ikke findes i likedBy
+      { _id: postId, likedBy: { $ne: userId } }, //$ne = "not equal" / "not in array". Altså tjek at userId ikke er i likedBy array
+      { $push: { likedBy: userId }, $inc: { likes: 1 } }, //selve like delen
+      { new: true }
+  );
+
+  //gør hvis vi likedPost
+  if (likedPost){
+      console.log(`User ${userId} liked post ${postId}`);
+      return {
+          liked: true,
+          //Burde ses i f.eks. postman
+          message: "Du liked posten!",
+          post: likedPost
+      };
+  }
+
+  //prøver denne hvis likedPost ikke skete
+  const unlikedPost = await Post.findOneAndUpdate(
+      {_id: postId, likedBy: userId },
+      { $pull: { likedBy: userId }, $inc: { likes: -1 } },
+      { new: true }
+  )
+
+    if (unlikedPost){
+        console.log(`User ${userId} unliked post ${postId}`);
+        return {
+            liked: false,
+            message: "Du tilbage trukket din like!", //god dansk 10/10 so proud
+            post: unlikedPost
+        };
     }
 
-    return post; // Like blev tilføjet
+    //sker hvis ingen af de andre skete, f.eks. hvis post måske null
+    return null;
+};
+
+//const post = await Post.findById(postId)
+// const post = await Post.findOneAndUpdate(
+//     // Filter, det dokumenter skal vi matche.
+//     {
+//         _id: postId,
+//         likedBy: {$ne: userId} //$ne = "not equal" / "not in array". Altså tjek at userId ikke er i likedBy array
+//     },
+//     // Hvis filter = true, så definere vi hvad der skal ske, altså vores update
+//     {
+//         $push: {likedBy: userId},
+//         $inc: {likes: 1}
+//     },
+//     { // Sikre vi returnere det opdateret, og ikke det gamle dokument
+//         new: true
+//     }
+// );
+// //Hvis post er null, betyder det at enten findes posten ikke, eller user har allerede liked
+// if (!post) {
+//     const unchangedPost = await Post.findById(postId);
+//     return unchangedPost; // returnere uden ændring
+// }
+//
+// return post; // Like blev tilføjet
+
     // if (!post) {
     //     return null;
     // }
@@ -66,29 +105,30 @@ exports.likePost = async (postId, userId) => {
     //     {new: true }
     // );
     // return like;
-};
 
-exports.unlikePost = async (postId, userId) => {
-    // const post = await Post.findById(postId);
-    const post = await Post.findOneAndUpdate(
-        {
-            _id: postId,
-            likedBy: userId
-        },
-        {
-            $pull: {likedBy: userId},
-            $inc: {likes: -1}
-        },
-        {
-            new: true
-        }
-    );
 
-    if(!post){
-        const unchangedPost = await Post.findById(postId);
-        return unchangedPost; // returnere uden ændring
-    }
-    return post; // like fjernet
+// exports.unlikePost = async (postId, userId) => {
+//     // const post = await Post.findById(postId);
+//     const post = await Post.findOneAndUpdate(
+//         {
+//             _id: postId,
+//             likedBy: userId
+//         },
+//         {
+//             $pull: {likedBy: userId},
+//             $inc: {likes: -1}
+//         },
+//         {
+//             new: true
+//         }
+//     );
+//
+//     if(!post){
+//         const unchangedPost = await Post.findById(postId);
+//         return unchangedPost; // returnere uden ændring
+//     }
+//     return post; // like fjernet
+// };
     //
     // if (!post) {
     //     return null;
@@ -103,7 +143,7 @@ exports.unlikePost = async (postId, userId) => {
     //     {new: true}
     // );
     // return unlike;
-};
+
 
 exports.getMostLikedPosts = async () => {
     const result = await Post.aggregate([

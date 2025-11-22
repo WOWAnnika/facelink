@@ -40,7 +40,7 @@ async function getAllPosts() {
                 <p class="post-timestamp">${new Date(post.timestamp).toLocaleString()}</p>
 <!--            En delete knap man kun burde kunne se hvis det er ens egen post, gemmer også post id her, henter det herfra når vi skal slet posten-->
                 ${post.user_id._id === currentUserId ? `<button class="delete-btn" data-id="${post._id}">Slet</button>` : ""}
-                <button class="like-btn">Likes: ${post.likes}</button>
+                <button class="like-btn" data-id="${post._id}">Likes: ${post.likes}</button>
             `;
             // tilføjes DOM-element?? til HTML'en
             listPosts.appendChild(div);
@@ -105,6 +105,27 @@ async function createPost(formData) {
     getAllPosts();
 }
 
+//DETTE ER TIL LIKES
+listPosts.addEventListener("click", async (e) => {
+    if (!e.target.classList.contains("like-btn")) return;
+
+    const postId = e.target.dataset.id;
+    const token = localStorage.getItem("token");
+    if (!token) return alert("Du skal være logget ind");
+
+    try {
+        const response = await fetch(`/api/posts/${postId}/like`, {
+            method: "POST",
+            headers: {"Authorization": "Bearer " + token },
+        });
+        const data = await response.json();
+        getAllPosts();
+    } catch (err) {
+        console.error("Fejl ved like btn", err);
+    }
+})
+
+//TIL AT SLETTE MED. DELETE KNAPPEN
 listPosts.addEventListener("click", async (e) => {
     //sørger for koden nedenunder kun bliver activeret af buttons der har class "delete-btn"
     if (!e.target.classList.contains("delete-btn")) return;
