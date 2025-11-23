@@ -63,7 +63,7 @@ describe("Vigtige login ting", () => {
             const decode = jwt.verifyToken(token);
 
             expect(decode).toBeDefined();
-            expect(decode.id).toBe(userId);
+            expect(decode.userId).toBe(userId);
         });
 
         it("error due to fake token", () => {

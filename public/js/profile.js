@@ -86,8 +86,9 @@ userPosts.addEventListener("click", async (e) => {
         }
 
         alert("Post slettet");
-        getUserPost();
+
         //opdatere listen efter slettet
+        getUserPost();
     } catch (error) {
         console.error(error);
         // alert(error.message);

@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { connectDB, closeDB, clearDB } = require("./dbHelper");
 
 beforeAll(async ()=> {
@@ -11,4 +12,3 @@ afterEach(async ()=> {
 afterAll(async ()=> {
     await closeDB();
 });
-
