@@ -1,5 +1,7 @@
 # Postman Routes
 
+## Hvis fejl i opret post, lav "img" mappe i public. 
+
 ## Foreslået rækkefølge
 
 ### 1. Opret user
